@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="links">
+        <div><a href="index.html">Home</a></div>
+        <div><a href="application.html">Applied Jobs</a></div>
+        <div><a href="./bookmarks.html">Bookmarks</a></div>
+    </div>
+
+    <form  id="form">
+        <h2>Enter your Application Deatails</h2>
+        <input type="text" id="name" placeholder="Enter ur name">
+        <input type="email" id="email" placeholder="Enter email">
+        <select id="role">
+            <option value="fsd">FSD</option>
+            <option value="backend">Backend</option>
+            <option value="frontend">Frontend</option>
+        </select>
+       <input type="number" placeholder="enter salary" id="salary">
+       <input type="submit" id="submit" > 
+    </form>
+    
+</body>
+</html>
+<script>
+    document.querySelector('#form').addEventListener('submit',jobsubmit);
+    
+    let jobarr= JSON.parse(localStorage.getItem('joblist')) || [];
+    
+
+    function jobsubmit(){
+        event.preventDefault();
+        
+        let jobobj={
+            personname:document.querySelector('#name').value,
+            personemail:form.email.value,
+            personrole:form.role.value,
+            personsalary:form.salary.value
+        }; 
+
+        jobarr.push(jobobj);
+
+        localStorage.setItem("joblist",JSON.stringify(jobarr));
+        window.location.href='application.html';
+    }
+
+</script>

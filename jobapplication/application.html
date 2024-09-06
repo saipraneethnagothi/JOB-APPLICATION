@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="links">
+        <div><a href="index.html">Home</a></div>
+        <div><a href="application.html">Applied Jobs</a></div>
+        <div><a href="./bookmarks.html">Bookmarks</a></div>
+    </div>
+
+    <h2>Apllication details</h2>
+
+    <select id="sortname" onchange="handlenamesort()">
+        <option value="">Sort by Name</option>
+        <option value="asc">Asscending</option>
+        <option value="dsc">Descending</option>
+    </select>
+    
+    <select id="sortsalary" onchange="handlesalarysort()">
+        <option value="">Sort by Salary</option>
+        <option value="LTH">Low to High</option>
+        <option value="HTL">High to Low</option>
+    </select>
+
+    <select id="filterrole" onchange="handlefilter()">
+        <option value="">Filter Category</option>
+        <option value="fsd">FSD</option>
+        <option value="frontend">Frontend</option>
+        <option value="backend">Backend</option>
+    </select>
+
+    <main>
+        <table border="1">
+            <thead>
+                <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Job Role</th>
+                <th>Salary</th>
+                <th>Add to bookmark</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+        </table>
+    </main>
+</body>
+</html>
+
+<script>
+    let jobarr=JSON.parse(localStorage.getItem('joblist'));
+    let bookmarkarr=JSON.parse(localStorage.getItem('bookmarks')) || [];
+    displaydata(jobarr);
+    
+    function bookmarkfun(element){
+
+        bookmarkarr.push(element);
+        localStorage.setItem('bookmarks',JSON.stringify(bookmarkarr));
+       
+    };
+//role sorting;
+    function handlefilter(){
+        let selectedvalue=document.getElementById('filterrole').value;
+        console.log(selectedvalue);
+        let filteredarr=jobarr.filter(function(element){
+            return element.personrole ===selectedvalue;
+        });
+        console.log(filteredarr);
+        document.querySelector('tbody').innerHTML='';
+        displaydata(filteredarr);
+        };
+
+//salary sorting
+    function handlesalarysort(){
+        let selectedvalue=document.querySelector('#sortsalary').value;
+
+        if (selectedvalue === 'HTL'){
+            jobarr.sort(function(a,b){
+                return b.personsalary-a.personsalary;
+
+            })
+            displaydata(jobarr);
+        }
+
+        if(selectedvalue==='LTH'){
+            jobarr.sort(function(a,b){
+                return a.personsalary-b.personsalary;
+            })
+            displaydata(jobarr);
+        }
+    };
+
+//name sorting
+    function handlenamesort(){
+        let selectedname=document.querySelector('#sortname').value;
+
+        if (selectedname==='asc'){
+            jobarr.sort(function(a,b){
+
+                let x=a.personname.toUpperCase();
+                let y=b.personname.toUpperCase();
+
+                if (x>y){
+                    return 1;
+                }
+                if (x<y){
+                    return -1;
+                }
+                return 0;
+            });
+            displaydata(jobarr);
+        }
+
+        if (selectedname==='dsc'){
+            jobarr.sort(function(a,b){
+
+                let x=a.personname.toUpperCase();
+                let y=b.personname.toUpperCase();
+
+                if (x>y){
+                    return -1;
+                }
+                if (x<y){
+                    return 1;
+                }
+                return 0;
+            });
+            displaydata(jobarr);
+        }
+    }
+
+    function displaydata(data){
+        document.querySelector('tbody').innerHTML='';
+        data.forEach(function(element){
+            let tr=document.createElement('tr');
+            let td1=document.createElement('td');
+            td1.innerText=element.personname;
+            let td2=document.createElement('td');
+            td2.innerText=element.personemail;
+            let td3=document.createElement('td');
+            td3.innerText=element.personrole;
+            let td4=document.createElement('td');
+            td4.innerText=element.personsalary;
+            let td5=document.createElement('td');
+            td5.innerText='Bookmark';
+            td5.addEventListener('click',function(){
+                bookmarkfun(element)
+
+            });
+
+            tr.append(td1,td2,td3,td4,td5);
+            document.querySelector('tbody').append(tr);
+
+            });
+    }
+    
+</script>

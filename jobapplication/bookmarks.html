@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .deletetext{
+            color: red;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="links">
+        <div><a href="index.html">Home</a></div>
+        <div><a href="application.html">Applied Jobs</a></div>
+        <div><a href="bookmarks.html">Bookmarks</a></div>
+    </div>
+    <h2>Bookmarks Page</h2>
+    <main>
+        <table border="1">
+            <thead>
+                <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Job Role</th>
+                <th>Salary</th>
+                <th>Bookmarks</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+        </table>
+    </main>
+</body>
+</html>
+
+<script>
+    let bookmarkarr=JSON.parse(localStorage.getItem('bookmarks')) ;
+    
+    bookmarkarr.forEach(function(element,index){
+    let tr=document.createElement('tr');
+    let td1=document.createElement('td');
+    td1.innerText=element.personname;
+    let td2=document.createElement('td');
+    td2.innerText=element.personemail;
+    let td3=document.createElement('td');
+    td3.innerText=element.personrole;
+    let td4=document.createElement('td');
+    td4.innerText=element.personsalary;
+    let td5=document.createElement('td');
+    td5.innerText='Delete';
+    td5.setAttribute('class','deletetext');
+    td5.addEventListener('click',function(){
+        deleteitem(element,index);
+
+    });
+    tr.append(td1,td2,td3,td4,td5);
+    document.querySelector('tbody').append(tr);
+    });
+    function deleteitem(element,index){
+        bookmarkarr.splice(index,1);
+        localStorage.setItem('bookmarks',JSON.stringify(bookmarkarr));
+        window.location.reload();
+    }
+    
+</script>
+
